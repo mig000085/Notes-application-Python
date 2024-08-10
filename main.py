@@ -39,7 +39,7 @@ def id_notes_list():
                 else:
                     flag = False                    
             return count
-        def print_note():
+def print_note():
     #разные варианты вывода
     print("Вывести все заметки - 1\nвывод заметки по номеру - 2\nвывод заметок по дате - 3")
     command = int(input('Введите номер операции '))
@@ -89,4 +89,29 @@ def change_note():
         print('Изменено')
     else:
         print('Такой записи нет')
-        
+def delete_note():
+    list = []
+    del_id = int(input('Введите номер записи для удаления '))
+    if check_id(del_id):
+        with open ('notes.csv', 'r', encoding='utf-8') as d:
+            data = csv.reader(d, delimiter=';', skipinitialspace=True)
+            for rows in data:
+                if int(rows[0]) != del_id:                    
+                    list.append(';'.join(rows))
+        with open ('notes.csv', 'w+', encoding='utf-8') as f:
+            for item in list:
+                f.writelines(f'{item}\n')
+        print('Удалено')
+    else:
+        print('Такой записи нет')
+def check_id(num_id):
+    flag=False    
+    with open ('notes.csv', 'r', encoding='utf-8') as f:
+        data = csv.reader(f, delimiter=';', skipinitialspace=True)
+        for row in data:
+            if int(row[0]) == num_id:
+                flag=True
+                break
+    return flag
+
+interface()  
